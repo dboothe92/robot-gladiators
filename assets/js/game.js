@@ -1,22 +1,31 @@
+var fightOrSkip =function() {
+    var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle?");
+    promptFight = promptFight.toLowerCase();
+
+    if (promptFight === "skip") {
+        var confirmSkip = window.confirm("Are you sure you'd like to skip this fight?");
+
+        if (confirmSkip) {
+            window.alert (playerInfo.name + " has decided to skip this fight!");
+            playerInfo.money = Math.max(0, playerInfo.money - 10);
+            return true;
+        }
+    }
+    if (!promptFight) {
+        window.alert("You need to provide a valid answer! Please try again!");
+        return fightOrSkip();
+    }
+}
+
+
 //Function to fight the robots
 var fight = function(enemy) {
     //Repeat and execute as long as enemy is still alive
     while (enemy.health > 0 && playerInfo.health > 0) {
-        var promptFight = window.prompt("Would you like to FIGHT  or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
-
-          //if player chooses to skip
-        if (promptFight === 'skip' || promptFight === 'SKIP') {
-            //Confirm player wants to skip
-            var confirmSkip = window.confirm("Are you sure you'd like to quit?");
-
-            //if true, leave fight
-            if (confirmSkip) {
-                window.alert(playerInfo.name + " has decided to skip this fight. Goodbye!");
-                playerInfo.money = Math.max(0, playerInfo.money - 10);
-                console.log("playerInfo.money ", playerInfo.money);
-                break;
-            }
+        if (fightOrSkip()) {
+            break;
         }
+
         /*Subtract value of'playerInfo.attack' from the value of 'enemy.health' and use that result to 
         update the value in 'enemy.health' variable*/
         var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
@@ -24,7 +33,7 @@ var fight = function(enemy) {
         enemy.health = Math.max(0, enemy.health - damage);
         console.log(
             playerInfo.name + " attacked " + enemy.name + ". " + enemy.name + " now has " + enemy.health + " health remaining."
-            );
+        );
 
         //Check enemy health
         if (enemy.health <= 0) {

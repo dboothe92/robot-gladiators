@@ -103,8 +103,21 @@ var startGame = function (){
 //function showing endgame options
 var endGame = function() {
     if (playerInfo.health > 0) {
-        window.alert("Great job, you've survived the game! you now have a score of :" + playerInfo.money);
-    } else {
+        window.alert("Great job, you've survived the game! you now have a score of : " + playerInfo.money);
+        
+        //check for highscore or set to 0
+        var highscore = localStorage.getItem("highscore");
+        highscore = highscore || 0;
+        
+            //store name and score
+            if (playerInfo.money > highscore) {
+                localStorage.setItem ("highscore", playerInfo.money);
+                localStorage.setItem ("name", playerInfo.name);
+                window.alert(playerInfo.name + " now has a high score of " + playerInfo.money);
+            } else {
+                window.alert(playerInfo.name + " did not beat the high score.");
+            }
+        } else {
         window.alert("You've lost your robot in battle.");
     }
 
@@ -162,25 +175,27 @@ var getPlayerName = function() {
 var playerInfo = {
     name: getPlayerName(),
     health: 100,
-    attack: 10,
+    attack: 50,
     money: 10,
     reset: function () {
         this.health = 100;
-        this.attack = 10;
+        this.attack = 50;
         this.money = 10;
     }, 
     refillHealth: function(){
         if (this.money >= 7) {
             this.health += 20;
             this.money -= 7;
+            alert("20 points will be added to your health in exchange for 7 points.");
         } else {
             window.alert("You don't have enough points!");
         }
     },
     upgradeAttack: function() {
         if (this.money >= 7) {
-            this.attack =+ 6;
+            this.attack += 6;
             this.money -= 7;
+            alert("Your attack will be increased by 6 in exchange for 7 points.");
         } else {
             window.alert("You don't have enough points!")
         }

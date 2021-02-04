@@ -133,8 +133,19 @@ var randomNumber = function (min, max) {
     return value;
 };
 
+//Function to make sure name value is not null
+var getPlayerName = function() {
+    var name = "";
+
+    while (name === "" || name === null) {
+        name = prompt("What is your robots name");
+    }
+    console.log("You're robot's name is" + name);
+};
+
+//Player object
 var playerInfo = {
-    name: window.prompt("What is your Robot's name?"),
+    name: getPlayerName(),
     health: 100,
     attack: 10,
     money: 10,
@@ -162,6 +173,7 @@ var playerInfo = {
     }
 };
 
+//Enemy object array
 var enemyInfo = [
     {
         name: "Roborto",
